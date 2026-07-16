@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 16px;
+
+  background: var(--color-white);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: 16px;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.status {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.verified {
+  color: #10b981;
+}
+
+.pending {
+  color: #f59e0b;
+}
+
+.unverified {
+  color: #dc2626;
+}
+
+.score {
+  font-size: 0.85rem;
+  color: #6b7280;
+}

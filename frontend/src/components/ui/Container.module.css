@@ -1,0 +1,22 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.sizeSmall {
+  max-width: 640px;
+}
+
+.sizeMedium {
+  max-width: 960px;
+}
+
+.sizeLarge {
+  max-width: 1280px;
+}
+
+.sizeFull {
+  max-width: 100%;
+}

@@ -1,0 +1,42 @@
+.heading {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Sizes */
+
+.sizeDisplay {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+}
+
+.sizeXl {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.sizeLg {
+  font-size: 2rem;
+}
+
+.sizeMd {
+  font-size: 1.5rem;
+}
+
+.sizeSm {
+  font-size: 1.125rem;
+}
+
+/* Alignment */
+
+.alignLeft {
+  text-align: left;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}

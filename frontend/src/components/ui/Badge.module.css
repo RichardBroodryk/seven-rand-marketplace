@@ -1,0 +1,56 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  font-weight: 600;
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+/* ==========================
+   Sizes
+========================== */
+
+.sizeSmall {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+}
+
+.sizeMedium {
+  padding: 6px 14px;
+  font-size: 0.875rem;
+}
+
+/* ==========================
+   Variants
+========================== */
+
+.variantPrimary {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.variantSuccess {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.variantWarning {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.variantDanger {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.variantNeutral {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
