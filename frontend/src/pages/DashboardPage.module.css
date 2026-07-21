@@ -1,0 +1,338 @@
+.page {
+    padding: 32px 0 64px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.statCard {
+    padding: 20px;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.statValue {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.statLabel {
+    display: block;
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+.filterBar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.filterBar label {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.filterSelect {
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: var(--color-white);
+}
+
+.tableContainer {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #6b7280;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    color: var(--color-text);
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.titleCell {
+    font-weight: 500;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.editButton {
+    padding: 4px 12px;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.editButton:hover {
+    background: #bae6fd;
+}
+
+.deleteButton {
+    padding: 4px 12px;
+    background: #fee2e2;
+    color: #dc2626;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.deleteButton:hover {
+    background: #fca5a5;
+}
+
+.deleteButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.loadMore {
+    text-align: center;
+    padding: 16px;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 48px 0;
+    color: #6b7280;
+}
+
+.emptyState p {
+    font-size: 1.1rem;
+}
+
+.emptySubtext {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: #9ca3af;
+    margin-bottom: 16px;
+}
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    gap: 16px;
+}
+
+.loadingContainer p {
+    color: #6b7280;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+}
+
+.modal {
+    background: var(--color-white);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+    color: var(--color-text);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.formGroup label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text);
+}
+
+.formInput {
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    width: 100%;
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.formTextarea {
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.formTextarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.modalActions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+}
+
+.cancelButton {
+    padding: 10px 24px;
+    background: #f3f4f6;
+    color: var(--color-text);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancelButton:hover {
+    background: #e5e7eb;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .statsGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+
+    .modal {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .statsGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* Add to existing CSS */
+
+.soldButton {
+    padding: 4px 12px;
+    background: #d1fae5;
+    color: #065f46;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.soldButton:hover {
+    background: #a7f3d0;
+}
+
+.soldButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.renewButton {
+    padding: 4px 12px;
+    background: #fef3c7;
+    color: #92400e;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.renewButton:hover {
+    background: #fde68a;
+}
+
+.renewButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

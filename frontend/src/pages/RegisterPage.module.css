@@ -1,0 +1,95 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 48px 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.subtitle {
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.form {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.errorBox {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px 20px;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 12px;
+  color: #991b1b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.errorBox strong {
+  color: #7f1d1d;
+}
+
+.successBox {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px 20px;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 12px;
+  color: #14532d;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.successBox strong {
+  color: #166534;
+}
+
+.loginLink {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+.loginLink a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.loginLink a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 32px 16px;
+    min-height: 60vh;
+  }
+
+  .form {
+    max-width: 100%;
+  }
+
+  .errorBox,
+  .successBox {
+    max-width: 100%;
+  }
+}

@@ -17,7 +17,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       error,
       required = false,
       id,
+      name,
+      value,
+      onChange,
+      onBlur,
       className = "",
+      type = "text",
+      placeholder,
+      disabled = false,
       ...props
     },
     ref
@@ -27,7 +34,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label htmlFor={id} className={styles.label}>
             {label}
-
             {required && (
               <span className={styles.required}>*</span>
             )}
@@ -37,6 +43,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={id}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          placeholder={placeholder}
+          disabled={disabled}
           className={[
             styles.input,
             error ? styles.error : "",

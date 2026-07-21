@@ -1,0 +1,117 @@
+.page {
+  padding: 32px 0 64px;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: #6b7280;
+  font-size: 1.05rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardContent h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.details span {
+  padding: 2px 10px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.runButton {
+  padding: 6px 16px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.runButton:hover {
+  background: #059669;
+}
+
+.deleteButton {
+  padding: 6px 16px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.deleteButton:hover {
+  background: #fca5a5;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 16px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 0;
+  color: #6b7280;
+}
+
+.emptyState p {
+  font-size: 1.1rem;
+}
+
+.emptySubtext {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #9ca3af;
+  margin-bottom: 16px;
+}

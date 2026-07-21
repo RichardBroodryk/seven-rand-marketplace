@@ -1,0 +1,216 @@
+.section {
+  padding: 60px 0;
+  background: #ffffff;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.headingWithIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.shieldIcon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: #6b7280;
+  font-size: 1.05rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Premium Card */
+.premium {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+/* Buyer Card */
+.buyer {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.badgePremium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badgeBuyer {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 12px 0;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+.list li {
+  padding: 4px 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.feeLabel {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.feeValue {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-text);
+}
+
+.premiumNote {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #fef3c7;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #92400e;
+  text-align: center;
+}
+
+.buyerNote {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #d1fae5;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #065f46;
+  text-align: center;
+}
+
+.summary {
+  margin-top: 32px;
+  padding: 24px 32px;
+  background: #f9fafb;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.summaryText {
+  margin: 0;
+  font-size: 1rem;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.summarySub {
+  margin: 8px 0 0 0;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 0;
+  }
+
+  .shieldIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .summary {
+    padding: 16px 20px;
+  }
+
+  .price {
+    font-size: 1.5rem;
+  }
+}

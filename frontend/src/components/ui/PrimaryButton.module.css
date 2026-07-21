@@ -48,11 +48,12 @@
 .primary {
   background: var(--color-primary);
   color: var(--color-white);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--color-primary-dark);
+  background: #059669;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
 }
 
 .secondary {
@@ -90,19 +91,20 @@
 =========================== */
 
 .small {
-  height: 40px;
+  height: 36px;
   padding: 0 16px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
 }
 
 .medium {
-  height: 48px;
+  height: 44px;
   padding: 0 22px;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .large {
-  height: 56px;
+  height: 52px;
   padding: 0 28px;
   font-size: 1.05rem;
 }

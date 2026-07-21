@@ -1,0 +1,166 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dropzone {
+  border: 2px dashed var(--color-border);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--color-surface);
+}
+
+.dropzone:hover {
+  border-color: var(--color-primary);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.dropzone.active {
+  border-color: var(--color-primary);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.dropzoneContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+.dropzoneContent p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.previews {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.previewsTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.previewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.previewItem {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: #f3f4f6;
+}
+
+.previewItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.removeButton {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.removeButton:hover {
+  background: #dc2626;
+}
+
+.removeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.uploadButton {
+  padding: 10px 24px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.uploadButton:hover {
+  background: #059669;
+}
+
+.uploadButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.success {
+  padding: 12px 16px;
+  background: #d1fae5;
+  border-radius: 8px;
+  color: #065f46;
+}
+
+.success p {
+  margin: 0;
+}
+/* Add these to the existing CSS file */
+
+.sectionSubtitle {
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.uploadError {
+  padding: 12px 16px;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  color: #991b1b;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.uploadSuccess {
+  padding: 12px 16px;
+  background: #d1fae5;
+  border-radius: 8px;
+  color: #065f46;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
