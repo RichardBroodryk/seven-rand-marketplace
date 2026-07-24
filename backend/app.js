@@ -41,5 +41,7 @@ app.use("/api/favourites", favouriteRoutes);
 app.use("/api/saved-searches", savedSearchRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/stats", statsRoutes);
+app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
 module.exports = app;
