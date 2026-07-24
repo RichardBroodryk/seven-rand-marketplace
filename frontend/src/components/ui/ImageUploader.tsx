@@ -45,7 +45,7 @@ export default function ImageUploader({
     onDrop,
     accept: accept.split(",").reduce((acc, type) => ({ ...acc, [type]: [] }), {}),
     maxFiles,
-    maxSize: 5 * 1024 * 1024, // 5MB
+    maxSize: 20 * 1024 * 1024, // 20MB
   });
 
   const removeFile = (index: number) => {
@@ -72,8 +72,12 @@ export default function ImageUploader({
 
     try {
       const formData = new FormData();
+      
       files.forEach((file) => {
-        formData.append("images", file);
+        // Chrome fix: Force the file to be sent with proper type
+        const blob = new Blob([file], { type: file.type || 'image/jpeg' });
+        const fileName = file.name || 'image.jpg';
+        formData.append("images", blob, fileName);
       });
 
       const response = await fetch(
@@ -82,6 +86,7 @@ export default function ImageUploader({
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            // DO NOT set Content-Type header - let the browser handle it
           },
           body: formData,
         }
@@ -116,7 +121,7 @@ export default function ImageUploader({
         <div className={styles.dropzoneContent}>
           <span className={styles.icon}>📸</span>
           <p>{isDragActive ? "Drop your images here..." : "Drag & drop images here, or click to select"}</p>
-          <span className={styles.hint}>Up to {maxFiles} images • Max 5MB each</span>
+          <span className={styles.hint}>Up to {maxFiles} images • Max 20MB each</span>
         </div>
       </div>
 
