@@ -1,5 +1,8 @@
 export const API_CONFIG = {
-  BASE_URL: "http://localhost:5000/api",
+  // Use this for production
+  BASE_URL: "https://seven-rand-marketplace.onrender.com/api",
+  // Use this for local development
+  // BASE_URL: "http://localhost:5000/api",
 } as const;
 
 export const API_ENDPOINTS = {
