@@ -13,6 +13,7 @@ import CategoryPage from "../pages/CategoryPage";
 import DashboardPage from "../pages/DashboardPage";
 import FavouritesPage from "../pages/FavouritesPage";
 import SavedSearchesPage from "../pages/SavedSearchesPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 // Trust & Documents Pages
 import {
@@ -32,6 +33,7 @@ export default function AppRoutes() {
       {/* Auth Routes - No Layout */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
       {/* Marketplace Routes - With Layout */}
       <Route element={<MarketplaceLayout />}>

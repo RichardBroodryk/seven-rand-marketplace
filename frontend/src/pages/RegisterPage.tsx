@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Heading, Input, PrimaryButton } from "../components/ui";
 import { API_CONFIG, API_ENDPOINTS } from "../config/api";
 import styles from "./RegisterPage.module.css";
+import { PasswordInput } from "../components/ui";
 
 interface RegisterForm {
   firstName: string;
@@ -182,29 +183,28 @@ export default function RegisterPage() {
             autoComplete="email"
           />
 
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            label="Password"
-            required
-            placeholder="Min 6 characters"
-            value={form.password}
-            onChange={handleChange}
-            autoComplete="new-password"
-          />
+          <PasswordInput
+  id="password"
+  name="password"
+  label="Password"
+  required
+  placeholder="Min 6 characters"
+  value={form.password}
+  onChange={handleChange}
+  autoComplete="new-password"
+/>
 
-          <Input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            label="Confirm Password"
-            required
-            placeholder="Confirm your password"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            autoComplete="new-password"
-          />
+// Replace confirm password field
+<PasswordInput
+  id="confirmPassword"
+  name="confirmPassword"
+  label="Confirm Password"
+  required
+  placeholder="Confirm your password"
+  value={form.confirmPassword}
+  onChange={handleChange}
+  autoComplete="new-password"
+/>
 
           <PrimaryButton type="submit" fullWidth disabled={loading}>
             {loading ? "Creating Account..." : "Create Account"}

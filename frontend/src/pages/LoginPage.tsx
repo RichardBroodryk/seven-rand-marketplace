@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Container, Heading, Input, PrimaryButton } from "../components/ui";
+import { Link, useNavigate } from "react-router-dom";
+import { Container, Heading, Input, PrimaryButton, PasswordInput } from "../components/ui";
 import { API_CONFIG, API_ENDPOINTS } from "../config/api";
 import styles from "./LoginPage.module.css";
 
@@ -68,7 +68,6 @@ export default function LoginPage() {
       }
 
       localStorage.setItem("token", data.data.token);
-
       navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "We couldn't sign you in. Double-check your email and password.");
@@ -106,10 +105,9 @@ export default function LoginPage() {
             autoComplete="email"
           />
 
-          <Input
+          <PasswordInput
             id="password"
             name="password"
-            type="password"
             label="Password"
             required
             placeholder="Enter your password"
@@ -117,6 +115,11 @@ export default function LoginPage() {
             onChange={handleChange}
             autoComplete="current-password"
           />
+
+          {/* ✅ "Forgot Password?" Link - Add this line */}
+          <Link to="/forgot-password" className={styles.forgotLink}>
+            Forgot password?
+          </Link>
 
           <PrimaryButton type="submit" fullWidth disabled={loading}>
             {loading ? "Signing in..." : "Sign In"}

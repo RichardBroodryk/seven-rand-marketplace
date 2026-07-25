@@ -13,3 +13,4 @@ export { default as TextArea } from "./TextArea";
 // ... existing exports ...
 export { default as ImageUploader } from "./ImageUploader";
 export type { UploadedImage } from "./ImageUploader";
+export { default as PasswordInput } from "./PasswordInput";
