@@ -63,6 +63,7 @@ export default function ImageUploader({
     }
 
     const token = localStorage.getItem("token");
+
     if (!token) {
       onUploadError?.("Please sign in to upload images.");
       return;
@@ -72,13 +73,20 @@ export default function ImageUploader({
 
     try {
       const formData = new FormData();
-      
-      files.forEach((file) => {
-        // Chrome fix: Force the file to be sent with proper type
-        const blob = new Blob([file], { type: file.type || 'image/jpeg' });
-        const fileName = file.name || 'image.jpg';
-        formData.append("images", blob, fileName);
+
+      files.forEach((file, index) => {
+        console.log(`📸 File ${index + 1}`, {
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          lastModified: file.lastModified,
+        });
+
+        // Upload the ORIGINAL File
+        formData.append("images", file, file.name);
       });
+
+      console.log("🔄 Sending upload request to:", `${API_CONFIG.BASE_URL}/uploads/multiple`);
 
       const response = await fetch(
         `${API_CONFIG.BASE_URL}/uploads/multiple`,
@@ -86,13 +94,26 @@ export default function ImageUploader({
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            // DO NOT set Content-Type header - let the browser handle it
           },
           body: formData,
         }
       );
 
-      const data = await response.json();
+      console.log("📡 Upload Status:", response.status);
+
+      const responseText = await response.text();
+
+      console.log("📨 Server Response:", responseText);
+
+      let data;
+
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        throw new Error(
+          `Server returned an invalid response (${response.status}).`
+        );
+      }
 
       if (!response.ok) {
         throw new Error(data.message || "Upload failed.");
@@ -101,14 +122,20 @@ export default function ImageUploader({
       setUploadedImages(data.data);
       onUploadSuccess?.(data.data);
 
-      // Clear files after successful upload
       setFiles([]);
+
       setPreviews((prev) => {
         prev.forEach((url) => URL.revokeObjectURL(url));
         return [];
       });
     } catch (error) {
-      onUploadError?.(error instanceof Error ? error.message : "Upload failed.");
+      console.error("❌ Upload Error:", error);
+
+      onUploadError?.(
+        error instanceof Error
+          ? error.message
+          : "An unexpected upload error occurred."
+      );
     } finally {
       setUploading(false);
     }
