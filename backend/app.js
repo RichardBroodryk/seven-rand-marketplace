@@ -16,9 +16,8 @@ const statsRoutes = require("./routes/statsRoutes");
 
 const app = express();
 
-// ✅ SIMPLE CORS - Works everywhere
+// ✅ CORS - Clean version (NO wildcard)
 app.use(cors());
-app.options("*", cors());
 
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ extended: true, limit: "20mb" }));
