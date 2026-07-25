@@ -16,17 +16,30 @@ const statsRoutes = require("./routes/statsRoutes");
 
 const app = express();
 
-app.use(cors());
+// ✅ Complete CORS configuration
+const corsOptions = {
+  origin: [
+    "https://seven-rand-marketplace-frontend.onrender.com",
+    "http://localhost:5173",
+    "https://seven-rand-marketplace.onrender.com"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
 
-app.use(express.json());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "20mb" }));
+app.use(express.urlencoded({ extended: true, limit: "20mb" }));
 
 app.get("/", (req, res) => {
-    res.json({
-        application: "Seven Rand Marketplace API",
-        status: "Running"
-    });
+  res.json({
+    application: "Seven Rand Marketplace API",
+    status: "Running",
+  });
 });
 
 app.use("/api", healthRoutes);
@@ -41,7 +54,5 @@ app.use("/api/favourites", favouriteRoutes);
 app.use("/api/saved-searches", savedSearchRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/stats", statsRoutes);
-app.use(express.json({ limit: '20mb' }));
-app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
 module.exports = app;
