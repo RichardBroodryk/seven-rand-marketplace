@@ -16,7 +16,7 @@ const statsRoutes = require("./routes/statsRoutes");
 
 const app = express();
 
-// ✅ Complete CORS configuration
+// ✅ Complete CORS configuration (FIXED - no wildcard)
 const corsOptions = {
   origin: [
     "https://seven-rand-marketplace-frontend.onrender.com",
@@ -30,7 +30,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ extended: true, limit: "20mb" }));
