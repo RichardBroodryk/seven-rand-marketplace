@@ -46,7 +46,7 @@ export default function ImageUploader({
     onDrop,
     accept: accept.split(",").reduce((acc, type) => ({ ...acc, [type]: [] }), {}),
     maxFiles,
-    maxSize: 20 * 1024 * 1024, // 20MB
+    maxSize: 20 * 1024 * 1024,
   });
 
   const removeFile = (index: number) => {
@@ -75,7 +75,6 @@ export default function ImageUploader({
 
     try {
       const formData = new FormData();
-
       files.forEach((file) => {
         formData.append("images", file);
       });
@@ -83,60 +82,39 @@ export default function ImageUploader({
       const url = `${API_CONFIG.BASE_URL}/uploads/multiple`;
       setDebugInfo(`🔍 URL: ${url}`);
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          mode: "cors",
-          credentials: "include",
-          body: formData,
-          signal: controller.signal,
-        });
-        clearTimeout(timeoutId);
+      const responseText = await response.text();
+      setDebugInfo((prev) =>
+        prev +
+        `\n\nStatus: ${response.status}\n\nResponse:\n${responseText.slice(0, 500)}`
+      );
 
-        const responseText = await response.text();
-        setDebugInfo(
-          (prev) =>
-            prev +
-            `\n\nStatus: ${response.status}\n\nResponse:\n${responseText.slice(
-              0,
-              500
-            )}`
-        );
-
-        if (!response.ok) {
-          throw new Error(responseText || "Upload failed.");
-        }
-
-        const data = JSON.parse(responseText);
-        setUploadedImages(data.data);
-        onUploadSuccess?.(data.data);
-
-        setFiles([]);
-        setPreviews((prev) => {
-          prev.forEach((url) => URL.revokeObjectURL(url));
-          return [];
-        });
-      } catch (fetchError) {
-        clearTimeout(timeoutId);
-        throw fetchError;
+      if (!response.ok) {
+        throw new Error(responseText || "Upload failed.");
       }
+
+      const data = JSON.parse(responseText);
+      setUploadedImages(data.data);
+      onUploadSuccess?.(data.data);
+
+      setFiles([]);
+      setPreviews((prev) => {
+        prev.forEach((url) => URL.revokeObjectURL(url));
+        return [];
+      });
     } catch (error) {
-      setDebugInfo(
-        (prev) =>
-          prev +
-          `\n\n❌ Error: ${
-            error instanceof Error ? error.message : String(error)
-          }`
+      setDebugInfo((prev) =>
+        prev +
+        `\n\n❌ Error: ${error instanceof Error ? error.message : String(error)}`
       );
-      onUploadError?.(
-        error instanceof Error ? error.message : "Upload failed."
-      );
+      onUploadError?.(error instanceof Error ? error.message : "Upload failed.");
     } finally {
       setUploading(false);
     }
