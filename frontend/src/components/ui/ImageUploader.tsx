@@ -71,107 +71,51 @@ export default function ImageUploader({
     }
 
     setUploading(true);
-    setDebugInfo(""); // Clear previous debug info
+    setDebugInfo("");
 
     try {
       const formData = new FormData();
 
-      files.forEach((file, index) => {
-        console.log(`📸 File ${index + 1}`, {
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          lastModified: file.lastModified,
-        });
-
-        // Update debug info
-        setDebugInfo(
-          [
-            `File Name: ${file.name}`,
-            `Type: ${file.type || "Unknown"}`,
-            `Size: ${file.size} bytes`,
-            `Last Modified: ${new Date(file.lastModified).toLocaleString()}`,
-          ].join("\n")
-        );
-
-        // Upload the ORIGINAL File
-        formData.append("images", file, file.name);
+      files.forEach((file) => {
+        formData.append("images", file);
       });
 
-      console.log("🔄 Sending upload request to:", `${API_CONFIG.BASE_URL}/uploads/multiple`);
+      const url = `${API_CONFIG.BASE_URL}/uploads/multiple`;
+      setDebugInfo(`🔍 URL: ${url}`);
 
-      // ✅ Health check ping before upload
-      try {
-        const ping = await fetch(`${API_CONFIG.BASE_URL}/health`);
-        setDebugInfo(prev =>
-          prev +
-          `\n\nHealth Check: ${ping.status}`
-        );
-      } catch (err) {
-        setDebugInfo(prev =>
-          prev +
-          `\n\nHealth Check Failed: ${
-            err instanceof Error ? err.message : String(err)
-          }`
-        );
-      }
-
-      const response = await fetch(
-        `${API_CONFIG.BASE_URL}/uploads/multiple`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      console.log("📡 Upload Status:", response.status);
-      setDebugInfo((prev) => prev + `\n\nHTTP Status: ${response.status}`);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
       const responseText = await response.text();
-      setDebugInfo(
-        (prev) =>
-          prev +
-          `\n\nServer Response:\n${responseText.substring(0, 500)}`
+      setDebugInfo((prev) =>
+        prev +
+        `\n\nStatus: ${response.status}\n\nResponse:\n${responseText.slice(0, 500)}`
       );
 
-      console.log("📨 Server Response:", responseText);
-
-      let data;
-
-      try {
-        data = JSON.parse(responseText);
-      } catch {
-        throw new Error(
-          `Server returned an invalid response (${response.status}).`
-        );
-      }
-
       if (!response.ok) {
-        throw new Error(data.message || "Upload failed.");
+        throw new Error(responseText || "Upload failed.");
       }
 
+      const data = JSON.parse(responseText);
       setUploadedImages(data.data);
       onUploadSuccess?.(data.data);
 
       setFiles([]);
-
       setPreviews((prev) => {
         prev.forEach((url) => URL.revokeObjectURL(url));
         return [];
       });
     } catch (error) {
-      console.error("❌ Upload Error:", error);
-
-      setDebugInfo((prev) => prev + `\n\n❌ Error: ${error instanceof Error ? error.message : "Unknown error"}`);
-
-      onUploadError?.(
-        error instanceof Error
-          ? error.message
-          : "An unexpected upload error occurred."
+      setDebugInfo((prev) =>
+        prev +
+        `\n\n❌ Error: ${error instanceof Error ? error.message : String(error)}`
       );
+      onUploadError?.(error instanceof Error ? error.message : "Upload failed.");
     } finally {
       setUploading(false);
     }
