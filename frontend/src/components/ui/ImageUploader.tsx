@@ -100,6 +100,22 @@ export default function ImageUploader({
 
       console.log("🔄 Sending upload request to:", `${API_CONFIG.BASE_URL}/uploads/multiple`);
 
+      // ✅ Health check ping before upload
+      try {
+        const ping = await fetch(`${API_CONFIG.BASE_URL}/health`);
+        setDebugInfo(prev =>
+          prev +
+          `\n\nHealth Check: ${ping.status}`
+        );
+      } catch (err) {
+        setDebugInfo(prev =>
+          prev +
+          `\n\nHealth Check Failed: ${
+            err instanceof Error ? err.message : String(err)
+          }`
+        );
+      }
+
       const response = await fetch(
         `${API_CONFIG.BASE_URL}/uploads/multiple`,
         {
