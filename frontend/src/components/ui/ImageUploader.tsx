@@ -29,6 +29,7 @@ export default function ImageUploader({
   const [previews, setPreviews] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [debugInfo, setDebugInfo] = useState<string>("");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const remaining = maxFiles - files.length;
@@ -70,6 +71,7 @@ export default function ImageUploader({
     }
 
     setUploading(true);
+    setDebugInfo(""); // Clear previous debug info
 
     try {
       const formData = new FormData();
@@ -81,6 +83,16 @@ export default function ImageUploader({
           size: file.size,
           lastModified: file.lastModified,
         });
+
+        // Update debug info
+        setDebugInfo(
+          [
+            `File Name: ${file.name}`,
+            `Type: ${file.type || "Unknown"}`,
+            `Size: ${file.size} bytes`,
+            `Last Modified: ${new Date(file.lastModified).toLocaleString()}`,
+          ].join("\n")
+        );
 
         // Upload the ORIGINAL File
         formData.append("images", file, file.name);
@@ -100,8 +112,14 @@ export default function ImageUploader({
       );
 
       console.log("📡 Upload Status:", response.status);
+      setDebugInfo((prev) => prev + `\n\nHTTP Status: ${response.status}`);
 
       const responseText = await response.text();
+      setDebugInfo(
+        (prev) =>
+          prev +
+          `\n\nServer Response:\n${responseText.substring(0, 500)}`
+      );
 
       console.log("📨 Server Response:", responseText);
 
@@ -130,6 +148,8 @@ export default function ImageUploader({
       });
     } catch (error) {
       console.error("❌ Upload Error:", error);
+
+      setDebugInfo((prev) => prev + `\n\n❌ Error: ${error instanceof Error ? error.message : "Unknown error"}`);
 
       onUploadError?.(
         error instanceof Error
@@ -178,6 +198,27 @@ export default function ImageUploader({
           >
             {uploading ? "Uploading..." : `Upload ${files.length} Image${files.length > 1 ? "s" : ""}`}
           </button>
+        </div>
+      )}
+
+      {debugInfo && (
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "12px",
+            background: "#f5f5f5",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            whiteSpace: "pre-wrap",
+            fontFamily: "monospace",
+            fontSize: "12px",
+            color: "#222",
+          }}
+        >
+          <strong>Debug Information</strong>
+          <br />
+          <br />
+          {debugInfo}
         </div>
       )}
 
