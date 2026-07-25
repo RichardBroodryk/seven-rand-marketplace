@@ -482,6 +482,49 @@ const sendPrivacyEmail = async (data) => {
     await sendEmail(email, "Your privacy request has been received ✅", userHtml);
 };
 
+const sendPasswordResetEmail = async (user, resetToken) => {
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: Arial, sans-serif; color: #1f2937; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 20px 0; border-bottom: 2px solid #10b981; }
+        .logo { font-size: 24px; font-weight: 700; color: #10b981; }
+        .content { padding: 30px 0; }
+        .button { display: inline-block; padding: 12px 24px; background: #10b981; color: white; text-decoration: none; border-radius: 8px; }
+        .footer { text-align: center; padding-top: 20px; color: #6b7280; font-size: 14px; border-top: 1px solid #e5e7eb; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <div class="logo">🛡️ Seven Rand Marketplace</div>
+        </div>
+        <div class="content">
+          <h2>Reset Your Password</h2>
+          <p>Hi ${user.first_name},</p>
+          <p>We received a request to reset your password. Click the button below to set a new one:</p>
+          <p style="text-align: center; margin: 24px 0;">
+            <a href="${resetUrl}" class="button">Reset Password →</a>
+          </p>
+          <p style="color: #6b7280; font-size: 14px;">
+            This link will expire in 1 hour. If you didn't request this, please ignore this email.
+          </p>
+        </div>
+        <div class="footer">
+          <p>Seven Rand Marketplace • Every Deal Starts With Trust</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  await sendEmail(user.email, "Reset Your Password", html);
+};
 module.exports = {
     sendWelcomeEmail,
     sendListingPublishedEmail,
@@ -489,4 +532,5 @@ module.exports = {
     sendContactSupportEmail,
     sendResolutionEmail,
     sendPrivacyEmail,
+    sendPasswordResetEmail, 
 };
