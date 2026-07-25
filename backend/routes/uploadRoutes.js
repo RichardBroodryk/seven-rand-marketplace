@@ -41,7 +41,27 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-// Protected routes (require authentication)
+// ✅ OPTIONS handler for CORS preflight
+router.options("/multiple", (req, res) => {
+  console.log("✅ OPTIONS /multiple received");
+  res.sendStatus(204);
+});
+
+// ✅ POST /multiple with logging middleware
+router.post(
+  "/multiple",
+  (req, res, next) => {
+    console.log("✅ POST /multiple reached");
+    console.log("📋 Headers:", req.headers);
+    console.log("📋 Content-Type:", req.headers['content-type']);
+    next();
+  },
+  authMiddleware,
+  upload.array("images", 5), // Max 5 images
+  uploadController.uploadMultiple
+);
+
+// Single image upload
 router.post(
   "/single",
   authMiddleware,
@@ -49,13 +69,7 @@ router.post(
   uploadController.uploadSingle
 );
 
-router.post(
-  "/multiple",
-  authMiddleware,
-  upload.array("images", 5), // Max 5 images
-  uploadController.uploadMultiple
-);
-
+// Delete image
 router.delete(
   "/:publicId",
   authMiddleware,
