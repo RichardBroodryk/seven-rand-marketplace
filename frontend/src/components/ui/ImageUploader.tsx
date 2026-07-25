@@ -29,7 +29,6 @@ export default function ImageUploader({
   const [previews, setPreviews] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
-  const [debugInfo, setDebugInfo] = useState<string>("");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const remaining = maxFiles - files.length;
@@ -71,7 +70,6 @@ export default function ImageUploader({
     }
 
     setUploading(true);
-    setDebugInfo("");
 
     try {
       const formData = new FormData();
@@ -79,28 +77,23 @@ export default function ImageUploader({
         formData.append("images", file);
       });
 
-      const url = `${API_CONFIG.BASE_URL}/uploads/multiple`;
-      setDebugInfo(`🔍 URL: ${url}`);
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const responseText = await response.text();
-      setDebugInfo((prev) =>
-        prev +
-        `\n\nStatus: ${response.status}\n\nResponse:\n${responseText.slice(0, 500)}`
+      const response = await fetch(
+        `${API_CONFIG.BASE_URL}/uploads/multiple`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
       );
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error(responseText || "Upload failed.");
+        throw new Error(data.message || "Upload failed.");
       }
 
-      const data = JSON.parse(responseText);
       setUploadedImages(data.data);
       onUploadSuccess?.(data.data);
 
@@ -110,10 +103,6 @@ export default function ImageUploader({
         return [];
       });
     } catch (error) {
-      setDebugInfo((prev) =>
-        prev +
-        `\n\n❌ Error: ${error instanceof Error ? error.message : String(error)}`
-      );
       onUploadError?.(error instanceof Error ? error.message : "Upload failed.");
     } finally {
       setUploading(false);
@@ -157,27 +146,6 @@ export default function ImageUploader({
           >
             {uploading ? "Uploading..." : `Upload ${files.length} Image${files.length > 1 ? "s" : ""}`}
           </button>
-        </div>
-      )}
-
-      {debugInfo && (
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "12px",
-            background: "#f5f5f5",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            whiteSpace: "pre-wrap",
-            fontFamily: "monospace",
-            fontSize: "12px",
-            color: "#222",
-          }}
-        >
-          <strong>Debug Information</strong>
-          <br />
-          <br />
-          {debugInfo}
         </div>
       )}
 
