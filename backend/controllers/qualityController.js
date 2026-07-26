@@ -1,3 +1,4 @@
+const pool = require("../config/db"); // ✅ Add this line
 const qualityService = require("../services/qualityService");
 const listingService = require("../services/listingService");
 

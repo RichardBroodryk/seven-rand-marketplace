@@ -69,6 +69,13 @@ router.post(
   uploadController.uploadSingle
 );
 
+// ✅ Link images to a listing
+router.post(
+  "/link-images",
+  authMiddleware,
+  uploadController.linkImagesToListing
+);
+
 // Delete image
 router.delete(
   "/:publicId",
