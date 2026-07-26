@@ -207,7 +207,7 @@ const getSellerListings = async (userId, filters = {}) => {
     const countResult = await pool.query(countQuery, params);
     const total = parseInt(countResult.rows[0].total);
 
-    // Main query with images
+    // Main query with images - UPDATED with COALESCE
     const query = `
         SELECT 
             l.id,
@@ -224,7 +224,7 @@ const getSellerListings = async (userId, filters = {}) => {
             l.contact_unlocks,
             l.created_at,
             l.published_at,
-            c.name as category_name,
+            COALESCE(c.name, 'Unknown') as category_name,
             (
                 SELECT json_agg(json_build_object(
                     'id', li.id,
