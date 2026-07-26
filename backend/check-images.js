@@ -5,9 +5,25 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-async function checkImages() {
+async function fixAndCheck() {
   try {
-    // Check total images
+    console.log('🔄 Connecting to Render database...');
+    
+    // ✅ Step 1: Remove the NOT NULL constraint
+    console.log('📝 Removing NOT NULL constraint from listing_id...');
+    await pool.query('ALTER TABLE listing_images ALTER COLUMN listing_id DROP NOT NULL;');
+    console.log('✅ Constraint removed successfully!');
+    
+    // ✅ Step 2: Verify the change
+    const verifyResult = await pool.query(
+      `SELECT column_name, is_nullable 
+       FROM information_schema.columns 
+       WHERE table_name = 'listing_images' 
+       AND column_name = 'listing_id';`
+    );
+    console.log('📋 Result:', verifyResult.rows[0]);
+
+    // ✅ Step 3: Check total images
     const countResult = await pool.query(`SELECT COUNT(*) as total FROM listing_images;`);
     console.log('📸 Total images in database:', countResult.rows[0].total);
 
@@ -28,7 +44,7 @@ async function checkImages() {
       console.log('\n📸 Recent images:');
       console.table(result.rows);
     } else {
-      console.log('❌ No images found in the database.');
+      console.log('📸 No images found yet.');
     }
 
   } catch (err) {
@@ -38,4 +54,4 @@ async function checkImages() {
   }
 }
 
-checkImages();
+fixAndCheck();
