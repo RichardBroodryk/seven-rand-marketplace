@@ -346,23 +346,38 @@ export default function DashboardPage() {
                                     <div className={styles.formGroup}>
                                         <label>Category</label>
                                         <select
-                                            value={editing.category_id}
-                                            onChange={(e) =>
-                                                setEditing({ ...editing, category_id: Number(e.target.value) })
-                                            }
-                                            className={styles.formInput}
-                                            required
-                                        >
-                                            <option value="1">Vehicles</option>
-                                            <option value="2">Property</option>
-                                            <option value="3">Commercial Equipment</option>
-                                            <option value="4">Electronics</option>
-                                            <option value="5">Furniture</option>
-                                            <option value="6">Home & Garden</option>
-                                            <option value="7">Fashion</option>
-                                            <option value="8">Sports</option>
-                                            <option value="9">Other</option>
-                                        </select>
+    value={editing.category_id}
+    onChange={(e) =>
+        setEditing({ ...editing, category_id: Number(e.target.value) })
+    }
+    className={styles.formInput}
+    required
+>
+    {/* Premium Categories - R14 */}
+    <option value="1">🚗 Vehicles (R14)</option>
+    <option value="2">🏡 Property (R14)</option>
+    <option value="3">🏗️ Commercial Equipment (R14)</option>
+    <option value="15">🚜 Farming (R14)</option>
+    <option value="16">📦 Business & Industrial (R14)</option>
+    <option value="17">⛵ Boating & Marine (R14)</option>
+    <option value="18">🚛 Trucks & Heavy Vehicles (R14)</option>
+    <option value="19">🏕️ Caravans & Camping (R14)</option>
+    <option value="21">🚲 Trailers (R14)</option>
+    {/* Standard Categories - R7 */}
+    <option value="4">📱 Electronics (R7)</option>
+    <option value="5">🪑 Furniture (R7)</option>
+    <option value="6">🌿 Home & Garden (R7)</option>
+    <option value="7">👗 Fashion (R7)</option>
+    <option value="22">💄 Cosmetics & Beauty (R7)</option>
+    <option value="8">⚽ Sports (R7)</option>
+    <option value="9">📦 Other (R7)</option>
+    <option value="10">💼 Jobs (R7)</option>
+    <option value="11">🛠️ Services (R7)</option>
+    <option value="12">🐶 Pets (R7)</option>
+    <option value="13">🎮 Gaming (R7)</option>
+    <option value="14">👶 Baby & Kids (R7)</option>
+    <option value="20">🔧 Tools & Equipment (R7)</option>
+</select>
                                     </div>
                                 </div>
                                 <div className={styles.formRow}>
