@@ -26,7 +26,68 @@ async function runMigration() {
     console.log('✅ Reset token columns added successfully!');
 
     // ============================================================
-    // 2. ✅ Insert all categories (including new ones)
+    // 2. ✅ Create listing_images table
+    // ============================================================
+    console.log('📝 Creating listing_images table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS listing_images (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          listing_id UUID NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+          url TEXT NOT NULL,
+          public_id VARCHAR(255) NOT NULL,
+          display_order INTEGER DEFAULT 0,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('✅ listing_images table created!');
+
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_listing_images_listing_id ON listing_images(listing_id)
+    `);
+    console.log('✅ listing_images index created!');
+
+    // ============================================================
+    // 3. ✅ Create favourites table
+    // ============================================================
+    console.log('📝 Creating favourites table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS favourites (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          listing_id UUID NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          UNIQUE(user_id, listing_id)
+      )
+    `);
+    console.log('✅ favourites table created!');
+
+    // ============================================================
+    // 4. ✅ Create saved_searches table
+    // ============================================================
+    console.log('📝 Creating saved_searches table...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS saved_searches (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          keyword VARCHAR(255),
+          category_id INTEGER,
+          province VARCHAR(100),
+          city VARCHAR(100),
+          min_price NUMERIC(12,2),
+          max_price NUMERIC(12,2),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          last_notified_at TIMESTAMP
+      )
+    `);
+    console.log('✅ saved_searches table created!');
+
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_saved_searches_user_id ON saved_searches(user_id)
+    `);
+    console.log('✅ saved_searches index created!');
+
+    // ============================================================
+    // 5. ✅ Insert all categories (including new ones)
     // ============================================================
     console.log('📝 Inserting all categories...');
     await pool.query(`
@@ -63,32 +124,7 @@ async function runMigration() {
     console.log('✅ Categories inserted successfully!');
 
     // ============================================================
-    // 3. ✅ Create saved_searches table
-    // ============================================================
-    console.log('📝 Creating saved_searches table...');
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS saved_searches (
-          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-          user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-          keyword VARCHAR(255),
-          category_id INTEGER,
-          province VARCHAR(100),
-          city VARCHAR(100),
-          min_price NUMERIC(12,2),
-          max_price NUMERIC(12,2),
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          last_notified_at TIMESTAMP
-      )
-    `);
-    console.log('✅ saved_searches table created!');
-
-    await pool.query(`
-      CREATE INDEX IF NOT EXISTS idx_saved_searches_user_id ON saved_searches(user_id)
-    `);
-    console.log('✅ saved_searches index created!');
-
-    // ============================================================
-    // 4. ✅ Verify everything
+    // 6. ✅ Verify everything
     // ============================================================
     const result = await pool.query(
       `SELECT column_name 
