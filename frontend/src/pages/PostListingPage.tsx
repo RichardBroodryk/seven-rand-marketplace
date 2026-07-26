@@ -12,6 +12,7 @@ import {
 } from "../components/ui";
 
 import { listingsService } from "../services/listingsService";
+import { API_CONFIG } from "../config/api";
 
 import styles from "./PostListingPage.module.css";
 
@@ -44,6 +45,7 @@ interface CreateListingResponse {
 }
 
 interface UploadedImage {
+  id?: string;
   url: string;
   publicId: string;
   width: number;
@@ -190,6 +192,7 @@ export default function PostListingPage() {
     try {
       setLoading(true);
 
+      // ✅ Step 1: Create the listing
       const response = (await listingsService.createListing(
         {
           category_id: Number(form.category_id),
@@ -209,6 +212,43 @@ export default function PostListingPage() {
       
       if (id) {
         setListingId(id);
+        
+        // ✅ Step 2: Link uploaded images to the listing
+        if (uploadedImages.length > 0) {
+          try {
+            // Get the image IDs from the uploaded images
+            const imageIds = uploadedImages
+              .filter(img => img.id)
+              .map(img => img.id);
+            
+            if (imageIds.length > 0) {
+              const linkResponse = await fetch(
+                `${API_CONFIG.BASE_URL}/uploads/link-images`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify({
+                    listingId: id,
+                    imageIds: imageIds,
+                  }),
+                }
+              );
+              
+              if (!linkResponse.ok) {
+                console.warn("Failed to link images to listing:", await linkResponse.text());
+              } else {
+                console.log("✅ Images linked to listing successfully");
+              }
+            }
+          } catch (linkError) {
+            console.warn("Error linking images:", linkError);
+            // Don't fail the whole process if image linking fails
+          }
+        }
+        
         setSubmitSuccess(
           "Your listing is ready! Now let's get it published."
         );
