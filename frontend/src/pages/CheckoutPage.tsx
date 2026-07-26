@@ -25,8 +25,16 @@ interface Listing {
   created_at: string;
 }
 
-// Category fee mapping
-const PREMIUM_CATEGORIES = [1, 2, 3]; // Vehicles, Property, Commercial Equipment
+// Category fee mapping - UPDATED with all premium categories
+const PREMIUM_CATEGORIES = [
+  1, 2, 3,    // Vehicles, Property, Commercial Equipment
+  15,         // Farming
+  16,         // Business & Industrial
+  17,         // Boating & Marine
+  18,         // Trucks & Heavy Vehicles
+  19,         // Caravans & Camping
+  21          // Trailers
+];
 
 const getSellerFee = (categoryId: number): number => {
   if (PREMIUM_CATEGORIES.includes(categoryId)) return 14;
@@ -44,6 +52,19 @@ const getCategoryName = (categoryId: number): string => {
     7: "Fashion",
     8: "Sports",
     9: "Other",
+    10: "Jobs",
+    11: "Services",
+    12: "Pets",
+    13: "Gaming",
+    14: "Baby & Kids",
+    15: "Farming",
+    16: "Business & Industrial",
+    17: "Boating & Marine",
+    18: "Trucks & Heavy Vehicles",
+    19: "Caravans & Camping",
+    20: "Tools & Equipment",
+    21: "Trailers",
+    22: "Cosmetics & Beauty",
   };
   return map[categoryId] || "Unknown";
 };
@@ -63,7 +84,7 @@ const payFastConfig = {
   merchantKey: "46f0cd694581a",
   returnUrl: `${window.location.origin}/payment/success/${listingId}`,
   cancelUrl: `${window.location.origin}/payment/cancel/${listingId}`,
-  notifyUrl: `https://sulfate-unspoiled-unroll.ngrok-free.dev/api/payments/webhook`,
+  notifyUrl: `https://seven-rand-marketplace.onrender.com/api/payments/webhook`,
 };
 
   useEffect(() => {
