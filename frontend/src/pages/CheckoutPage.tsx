@@ -25,15 +25,9 @@ interface Listing {
   created_at: string;
 }
 
-// Category fee mapping - UPDATED with all premium categories
+// Category fee mapping
 const PREMIUM_CATEGORIES = [
-  1, 2, 3,    // Vehicles, Property, Commercial Equipment
-  15,         // Farming
-  16,         // Business & Industrial
-  17,         // Boating & Marine
-  18,         // Trucks & Heavy Vehicles
-  19,         // Caravans & Camping
-  21          // Trailers
+  1, 2, 3, 15, 16, 17, 18, 19, 21
 ];
 
 const getSellerFee = (categoryId: number): number => {
@@ -77,7 +71,6 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // PayFast configuration
   const payFastConfig = {
     sandbox: true,
     merchantId: "10000100",
@@ -136,7 +129,6 @@ export default function CheckoutPage() {
     );
   }
 
-  // Check if listing is already published
   if (listing.status === "published") {
     return (
       <Container size="large">
@@ -156,7 +148,7 @@ export default function CheckoutPage() {
   const categoryName = getCategoryName(listing.category_id);
   const isPremium = PREMIUM_CATEGORIES.includes(listing.category_id);
 
-  // ✅ Build PayFast form data
+  // ✅ PayFast form data - without custom_str1
   const payFastData = {
     merchant_id: payFastConfig.merchantId,
     merchant_key: payFastConfig.merchantKey,
@@ -170,7 +162,6 @@ export default function CheckoutPage() {
     amount: sellerFee.toFixed(2),
     item_name: `Listing Fee - ${categoryName}`,
     item_description: `Fee for "${listing.title}"`,
-    custom_str1: listing.title,
     payment_method: "cc",
   };
 
@@ -189,31 +180,24 @@ export default function CheckoutPage() {
         </div>
 
         <div className={styles.grid}>
-          {/* Listing Summary */}
           <div className={styles.summary}>
             <h2 className={styles.summaryTitle}>Listing Summary</h2>
-
             <div className={styles.listingDetails}>
               <div className={styles.detailRow}>
                 <span className={styles.detailLabel}>Title</span>
                 <span className={styles.detailValue}>{listing.title}</span>
               </div>
-
               <div className={styles.detailRow}>
                 <span className={styles.detailLabel}>Category</span>
                 <span className={styles.detailValue}>
                   {categoryName}
-                  {isPremium && (
-                    <span className={styles.premiumBadge}>Premium</span>
-                  )}
+                  {isPremium && <span className={styles.premiumBadge}>Premium</span>}
                 </span>
               </div>
-
               <div className={styles.detailRow}>
                 <span className={styles.detailLabel}>Price</span>
                 <span className={styles.detailValue}>R{Number(listing.price).toFixed(2)}</span>
               </div>
-
               <div className={styles.detailRow}>
                 <span className={styles.detailLabel}>Location</span>
                 <span className={styles.detailValue}>
@@ -221,9 +205,7 @@ export default function CheckoutPage() {
                 </span>
               </div>
             </div>
-
             <div className={styles.divider} />
-
             <div className={styles.feeSummary}>
               <div className={styles.feeRow}>
                 <span>Listing Fee</span>
@@ -238,25 +220,20 @@ export default function CheckoutPage() {
                 <strong>Published Live</strong>
               </div>
             </div>
-
             <div className={styles.note}>
               <p>
                 <strong>Important:</strong> Your listing will be published immediately
-                upon successful payment. You will receive a confirmation email once
-                your listing is live.
+                upon successful payment.
               </p>
             </div>
           </div>
 
-          {/* PayFast Payment Form */}
           <div className={styles.payment}>
             <h2 className={styles.paymentTitle}>Pay with PayFast</h2>
-
             <div className={styles.paymentAmount}>
               <span>Total Amount</span>
               <span className={styles.amount}>R{sellerFee.toFixed(2)}</span>
             </div>
-
             <div className={styles.paymentMethods}>
               <div className={styles.method}>
                 <span>Credit Card</span>
@@ -272,34 +249,18 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <form
-              action={actionUrl}
-              method="POST"
-              className={styles.payFastForm}
-            >
+            <form action={actionUrl} method="POST" className={styles.payFastForm}>
               {Object.entries(payFastData).map(([key, value]) => (
-                <input
-                  key={key}
-                  type="hidden"
-                  name={key}
-                  value={value || ""}
-                />
+                <input key={key} type="hidden" name={key} value={value || ""} />
               ))}
-
-              <PrimaryButton
-                type="submit"
-                fullWidth
-                className={styles.payButton}
-              >
+              <PrimaryButton type="submit" fullWidth className={styles.payButton}>
                 Pay Now - R{sellerFee.toFixed(2)}
               </PrimaryButton>
             </form>
 
             <p className={styles.secureNotice}>
-              🔒 Secure payment processed by PayFast. Your payment information is
-              encrypted and never stored by The Seven Rand Marketplace.
+              🔒 Secure payment processed by PayFast.
             </p>
-
             <p className={styles.sandboxNotice}>
               ⚠️ Testing in Sandbox Mode. No real payments will be processed.
             </p>
