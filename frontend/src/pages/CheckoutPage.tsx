@@ -72,9 +72,9 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
 
  const payFastConfig = {
-  sandbox: true,
-  merchantId: "10000100",
-  merchantKey: "46f0cd694581a",
+  sandbox: false,
+  merchantId: "33591103",
+  merchantKey: "umftqvcmajpsf",
   returnUrl: `https://sevenrand.co.za/payment/success/${listingId}`,
   cancelUrl: `https://sevenrand.co.za/payment/cancel/${listingId}`,
   notifyUrl: `https://seven-rand-marketplace.onrender.com/api/payments/webhook`,
