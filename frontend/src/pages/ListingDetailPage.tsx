@@ -88,6 +88,19 @@ export default function ListingDetailPage() {
       7: "Fashion",
       8: "Sports",
       9: "Other",
+      10: "Jobs",
+      11: "Services",
+      12: "Pets",
+      13: "Gaming",
+      14: "Baby & Kids",
+      15: "Farming",
+      16: "Business & Industrial",
+      17: "Boating & Marine",
+      18: "Trucks & Heavy Vehicles",
+      19: "Caravans & Camping",
+      20: "Tools & Equipment",
+      21: "Trailers",
+      22: "Cosmetics & Beauty",
     };
     return map[listing.category_id] || "Unknown";
   })();
@@ -98,8 +111,10 @@ export default function ListingDetailPage() {
 
   const isPublished = listing.status === "published";
 
-  // Placeholder image - will be replaced with Cloudinary in Sprint 17
-  const imageUrl = `https://picsum.photos/seed/${listing.id}/800/600`;
+  // ✅ Use uploaded image if available, otherwise fallback to placeholder
+  const imageUrl = listing.images && listing.images.length > 0 
+    ? listing.images[0].url 
+    : `https://picsum.photos/seed/${listing.id}/800/600`;
 
   return (
     <Container size="large">
@@ -203,7 +218,7 @@ export default function ListingDetailPage() {
           </div>
         </div>
 
-        {/* Safety Tips Section - ADDED HERE */}
+        {/* Safety Tips Section */}
         <div className={styles.safetyTips}>
           <h3>🛡️ Safety Tips</h3>
           <div className={styles.tipsGrid}>

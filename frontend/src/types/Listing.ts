@@ -23,4 +23,10 @@ export interface Listing {
   currency?: string;
   location?: string;
   postedDate?: string;
+  // Images array from database
+  images?: {
+    id: string;
+    url: string;
+    display_order: number;
+  }[];
 }

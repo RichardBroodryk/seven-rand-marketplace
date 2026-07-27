@@ -27,8 +27,10 @@ export default function ListingCard({
   const [isFavourite, setIsFavourite] = useState(false);
   const [favLoading, setFavLoading] = useState(false);
 
-  // Generate a placeholder image URL based on the listing ID
-  const imageUrl = `https://picsum.photos/seed/${listing.id}/400/300`;
+  // ✅ Use uploaded image if available, otherwise fallback to placeholder
+  const imageUrl = listing.images && listing.images.length > 0 
+    ? listing.images[0].url 
+    : `https://picsum.photos/seed/${listing.id}/400/300`;
 
   // Format the date
   const formattedDate = listing.created_at
@@ -95,16 +97,16 @@ export default function ListingCard({
             title={listing.title}
           />
 
-         <button
-    className={styles.favouriteButton}
-    onClick={toggleFavourite}
-    disabled={favLoading}
-    aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
->
-    <span className={isFavourite ? styles.heartActive : styles.heartInactive}>
-        ♥
-    </span>
-</button>
+          <button
+            className={styles.favouriteButton}
+            onClick={toggleFavourite}
+            disabled={favLoading}
+            aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
+          >
+            <span className={isFavourite ? styles.heartActive : styles.heartInactive}>
+              ♥
+            </span>
+          </button>
 
           <ListingBadges
             featured={listing.featured || false}
