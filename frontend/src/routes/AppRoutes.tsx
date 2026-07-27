@@ -30,34 +30,35 @@ import {
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Auth Routes - No Layout */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+  {/* Auth Routes - No Layout */}
+  <Route path="/login" element={<LoginPage />} />
+  <Route path="/register" element={<RegisterPage />} />
+  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+  
+  {/* ✅ Payment Success - No Layout (Clean Page) */}
+  <Route path="/payment/success/:listingId" element={<PaymentSuccessPage />} />
 
-      {/* Marketplace Routes - With Layout */}
-      <Route element={<MarketplaceLayout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/post-ad" element={<PostListingPage />} />
-        <Route path="/checkout/:listingId" element={<CheckoutPage />} />
-        <Route path="/payment/success/:listingId" element={<PaymentSuccessPage />} />
-        <Route path="/listing/:id" element={<ListingDetailPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/category/:slug" element={<CategoryPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/favourites" element={<FavouritesPage />} />
-        <Route path="/saved-searches" element={<SavedSearchesPage />} />
-
-        {/* Trust & Documents Routes */}
-        <Route path="/why-seven" element={<WhySevenPage />} />
-        <Route path="/seven-shield" element={<SevenShieldPage />} />
-        <Route path="/buyer-promise" element={<BuyerPromisePage />} />
-        <Route path="/safety-centre" element={<SafetyCentrePage />} />
-        <Route path="/fraud-prevention" element={<FraudPreventionPage />} />
-        <Route path="/seller-success" element={<SellerSuccessPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/resolution-centre" element={<ResolutionCentrePage />} />
-      </Route>
-    </Routes>
+  {/* Marketplace Routes - With Layout */}
+  <Route element={<MarketplaceLayout />}>
+    <Route path="/" element={<HomePage />} />
+    <Route path="/post-ad" element={<PostListingPage />} />
+    <Route path="/checkout/:listingId" element={<CheckoutPage />} />
+    <Route path="/listing/:id" element={<ListingDetailPage />} />
+    <Route path="/search" element={<SearchPage />} />
+    <Route path="/category/:slug" element={<CategoryPage />} />
+    <Route path="/dashboard" element={<DashboardPage />} />
+    <Route path="/favourites" element={<FavouritesPage />} />
+    <Route path="/saved-searches" element={<SavedSearchesPage />} />
+    {/* Trust & Documents Routes */}
+    <Route path="/why-seven" element={<WhySevenPage />} />
+    <Route path="/seven-shield" element={<SevenShieldPage />} />
+    <Route path="/buyer-promise" element={<BuyerPromisePage />} />
+    <Route path="/safety-centre" element={<SafetyCentrePage />} />
+    <Route path="/fraud-prevention" element={<FraudPreventionPage />} />
+    <Route path="/seller-success" element={<SellerSuccessPage />} />
+    <Route path="/privacy" element={<PrivacyPage />} />
+    <Route path="/resolution-centre" element={<ResolutionCentrePage />} />
+  </Route>
+</Routes>
   );
 }
