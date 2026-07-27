@@ -24,10 +24,18 @@ interface ListingsApiResponse {
   data: Listing[];
 }
 
+export interface PaymentVerificationResponse {
+  success: boolean;
+  data: {
+    id: string;
+    status: string;
+    payment_status: string;
+    is_published: boolean;
+  };
+}
+
 class ListingsService {
   async getFeaturedListings(): Promise<Listing[]> {
-    // Use the same as getLatestListings for now
-    // In future, this could be a different endpoint
     return this.getLatestListings();
   }
 
@@ -36,14 +44,13 @@ class ListingsService {
       const response = await fetch(
         `${API_CONFIG.BASE_URL}${API_ENDPOINTS.LISTINGS}/latest`
       );
-      
+
       const data: ListingsApiResponse = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch listings");
       }
-      
-      // Handle both response formats
+
       const listings = data.data || data;
       return Array.isArray(listings) ? listings : [];
     } catch (error) {
@@ -57,14 +64,13 @@ class ListingsService {
       const response = await fetch(
         `${API_CONFIG.BASE_URL}${API_ENDPOINTS.LISTINGS}/${id}`
       );
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch listing");
       }
-      
-      // Handle both response formats
+
       const listing = data.data || data;
       return listing as Listing;
     } catch (error) {
@@ -95,6 +101,27 @@ class ListingsService {
       throw new Error(
         data.message || data.error || "Unable to create listing."
       );
+    }
+
+    return data;
+  }
+
+  /**
+   * Verify payment status after PayFast redirects back.
+   * The frontend polls this endpoint until the webhook
+   * has published the listing.
+   */
+  async verifyPayment(
+    listingId: string
+  ): Promise<PaymentVerificationResponse> {
+    const response = await fetch(
+      `${API_CONFIG.BASE_URL}${API_ENDPOINTS.PAYMENTS}/verify/${listingId}`
+    );
+
+    const data: PaymentVerificationResponse = await response.json();
+
+    if (!response.ok) {
+      throw new Error("Unable to verify payment.");
     }
 
     return data;
