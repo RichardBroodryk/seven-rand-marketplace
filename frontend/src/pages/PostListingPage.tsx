@@ -205,18 +205,22 @@ export default function PostListingPage() {
         token
       )) as CreateListingResponse;
 
+      console.log("🔍 Full response from createListing:", response);
+
       const id = response.data?.listingId || 
                  response.data?.id || 
                  response.listingId ||
                  null;
+
+      console.log("🔍 Extracted ID:", id);
       
       if (id) {
         setListingId(id);
+        console.log("✅ Listing ID set to state:", id);
         
         // ✅ Step 2: Link uploaded images to the listing
         if (uploadedImages.length > 0) {
           try {
-            // Get the image IDs from the uploaded images
             const imageIds = uploadedImages
               .filter(img => img.id)
               .map(img => img.id);
@@ -245,7 +249,6 @@ export default function PostListingPage() {
             }
           } catch (linkError) {
             console.warn("Error linking images:", linkError);
-            // Don't fail the whole process if image linking fails
           }
         }
         
@@ -255,11 +258,13 @@ export default function PostListingPage() {
         setForm(initialForm);
         setUploadedImages([]);
       } else {
+        console.error("❌ No ID found in response!");
         setSubmitSuccess("Listing created successfully.");
         setForm(initialForm);
         setUploadedImages([]);
       }
     } catch (error) {
+      console.error("❌ Error creating listing:", error);
       if (error instanceof Error) {
         setSubmitError("We couldn't create your listing. Let's check the details and try again.");
       } else {
@@ -271,8 +276,11 @@ export default function PostListingPage() {
   };
 
   const handleCheckout = () => {
+    console.log("🔍 Navigate to checkout with ID:", listingId);
     if (listingId) {
       navigate(`/checkout/${listingId}`);
+    } else {
+      console.error("❌ No listing ID available for checkout");
     }
   };
 
