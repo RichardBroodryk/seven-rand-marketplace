@@ -22,6 +22,7 @@ export default function ListingDetailPage() {
   const [listing, setListing] = useState<ListingDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -111,17 +112,20 @@ export default function ListingDetailPage() {
 
   const isPublished = listing.status === "published";
 
-  // ✅ Use uploaded image if available, otherwise fallback to placeholder
-  const imageUrl = listing.images && listing.images.length > 0 
-    ? listing.images[0].url 
-    : `https://picsum.photos/seed/${listing.id}/800/600`;
+  // ✅ Image handling
+  const images = listing.images && listing.images.length > 0 
+    ? listing.images 
+    : [{ url: `https://picsum.photos/seed/${listing.id}/800/600`, id: 'placeholder' }];
+
+  const selectedImage = images[selectedImageIndex]?.url || images[0]?.url;
 
   return (
     <Container size="large">
       <div className={styles.page}>
+        {/* ✅ Image with Gallery */}
         <div className={styles.imageWrapper}>
           <img
-            src={imageUrl}
+            src={selectedImage}
             alt={listing.title}
             className={styles.image}
           />
@@ -131,6 +135,21 @@ export default function ListingDetailPage() {
             </Badge>
           </div>
         </div>
+
+        {/* ✅ Thumbnail Gallery */}
+        {images.length > 1 && (
+          <div className={styles.imageGallery}>
+            {images.map((img, index) => (
+              <div
+                key={img.id || index}
+                className={`${styles.thumbnail} ${selectedImageIndex === index ? styles.active : ''}`}
+                onClick={() => setSelectedImageIndex(index)}
+              >
+                <img src={img.url} alt={`Image ${index + 1}`} />
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className={styles.content}>
           <div className={styles.mainInfo}>
@@ -243,8 +262,6 @@ export default function ListingDetailPage() {
             Learn more about staying safe →
           </Link>
         </div>
-        {/* End Safety Tips Section */}
-
       </div>
     </Container>
   );
