@@ -77,15 +77,15 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
- // PayFast configuration - using API_CONFIG base URL
-const payFastConfig = {
-  sandbox: true,
-  merchantId: "10000100",
-  merchantKey: "46f0cd694581a",
-  returnUrl: `${window.location.origin}/payment/success/${listingId}`,
-  cancelUrl: `${window.location.origin}/payment/cancel/${listingId}`,
-  notifyUrl: `https://seven-rand-marketplace.onrender.com/api/payments/webhook`,
-};
+  // PayFast configuration
+  const payFastConfig = {
+    sandbox: true,
+    merchantId: "10000100",
+    merchantKey: "46f0cd694581a",
+    returnUrl: `${window.location.origin}/payment/success/${listingId}`,
+    cancelUrl: `${window.location.origin}/payment/cancel/${listingId}`,
+    notifyUrl: `https://seven-rand-marketplace.onrender.com/api/payments/webhook`,
+  };
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -156,7 +156,7 @@ const payFastConfig = {
   const categoryName = getCategoryName(listing.category_id);
   const isPremium = PREMIUM_CATEGORIES.includes(listing.category_id);
 
-  // Build PayFast form data - fixed custom_int1
+  // ✅ Build PayFast form data
   const payFastData = {
     merchant_id: payFastConfig.merchantId,
     merchant_key: payFastConfig.merchantKey,
@@ -168,9 +168,8 @@ const payFastConfig = {
     email_address: "",
     m_payment_id: listingId || "",
     amount: sellerFee.toFixed(2),
-    item_name: `The Seven Rand Marketplace - Listing Fee (${categoryName})`,
-    item_description: `Listing fee for "${listing.title}"`,
-    // custom_int1 removed - was causing error with UUID
+    item_name: `Listing Fee - ${categoryName}`,
+    item_description: `Fee for "${listing.title}"`,
     custom_str1: listing.title,
     payment_method: "cc",
   };
