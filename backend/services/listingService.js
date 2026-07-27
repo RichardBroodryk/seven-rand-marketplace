@@ -90,7 +90,18 @@ const create = async (listingData, currentUser) => {
 const latest = async () => {
     try {
         const listings = await ListingModel.findLatest();
-
+        
+        // ✅ Fetch images for each listing
+        for (let i = 0; i < listings.length; i++) {
+            const imagesResult = await pool.query(
+                `SELECT id, url, display_order FROM listing_images 
+                 WHERE listing_id = $1 
+                 ORDER BY display_order ASC`,
+                [listings[i].id]
+            );
+            listings[i].images = imagesResult.rows;
+        }
+        
         return {
             success: true,
             data: listings
@@ -108,6 +119,15 @@ const getById = async (id) => {
         if (!listing) {
             throw new Error("Listing not found.");
         }
+        
+        // ✅ Fetch images for this listing
+        const imagesResult = await pool.query(
+            `SELECT id, url, display_order FROM listing_images 
+             WHERE listing_id = $1 
+             ORDER BY display_order ASC`,
+            [id]
+        );
+        listing.images = imagesResult.rows;
 
         return {
             success: true,
